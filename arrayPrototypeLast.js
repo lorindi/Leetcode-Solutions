@@ -1,36 +1,26 @@
 /**
  * @return {null|boolean|number|string|Array|Object}
  */
-
 Array.prototype.last = function () {
-
-    if (this.length === 0) return -1;
-    let lastEl = this.slice(-1)[0];
-  
-    if (typeof lastEl === "number" || typeof lastEl === "boolean") return lastEl;
-  
-    if (Array.isArray(lastEl)) return JSON.stringify(lastEl);
+    if (!this.length) return -1;
+    const lastEl = this[this.length - 1];
     
-    if (typeof lastEl === "object") return JSON.stringify(lastEl);
+    return lastEl === null || typeof lastEl === "number" || typeof lastEl === "boolean" || Array.isArray(lastEl) || typeof lastEl === "object"
+      ? lastEl
+      : isNaN(Number(lastEl)) ? lastEl : Number(lastEl);
+  };
   
-    return isNaN(Number(lastEl)) ? lastEl : Number(lastEl);
-};
-
-const testCases = [
-    { input: [1, 2, 3]},
-    { input: ["5"]},
-    { input: ["hello"]},
-    { input: [true, "42"]},
+  const testCases = [
+    { input: [1, 2, 3] },
+    { input: ["5"] },
+    { input: ["hello"] },
+    { input: [true, "42"] },
     { input: [null, {}, null] },
     { input: [null, "5.5"] },
-    { input: [{}, [], {}]},
-    { input: [[]] }, 
-    { input: [{}, true]},
+    { input: [{}, [], { y: 7 }] },
+    { input: [[]] },
+    { input: [{}, true] },
   ];
   
-  testCases.forEach(({ input }) => {
-    const result = input.last();
-    console.log(`${JSON.stringify(input)} → ${result}`);
-  });
+  testCases.forEach(({ input }) => console.log(`${JSON.stringify(input)} →`, input.last()));
   
-
